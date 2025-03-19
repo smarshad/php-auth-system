@@ -63,7 +63,6 @@ function isValidFile(file) {
  */
 function validateSignupForm(event) {
     event.preventDefault();
-
     const username = document.getElementById('username').value.trim();
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
@@ -89,27 +88,27 @@ function validateSignupForm(event) {
 
 
 /** 
- * Handle Signup form validation
+ * Handle Login form validation
  * $param {Event} event
  */
 
-function validateSignupForm(event) {
+function validateLoginForm(event) {
     event.preventDefault();
     var username = document.getElementById('username').value.trim();
     var password = document.getElementById('password').value.trim();
     var errorElement = document.getElementById("error-message");
     errorElement.innerHTML = "";
-    let validationResult = isValidUsername(username);
-    if (validationResult !== true) {
-        showError("error-message", validationResult);
-        document.getElementById('username').focus();
-        return false;
-    }
+    const validators = [
+        [username, isValidUsername],
+        [password, isValidPassword]
+    ];
 
-    let validationPassword = isValidPassword(password);
-    if (validationPassword !== true) {
-        showError("error-message", validationPassword);
-        return false;
+    for (const [value, validator] of validators) {
+        const result = validator(value);
+        if (result !== true) {
+            showError(result);
+            return false;
+        }
     }
     document.getElementById("login-form").submit();
 }

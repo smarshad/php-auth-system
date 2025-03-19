@@ -32,31 +32,36 @@ class Auth
             
             return true;
         } catch (Exception $exception) {
-            $this->handleException($exception, "Error on Signup");
-            return false;
+            return $exception->getMessage(); 
         }
     }
 
     public function login($username, $password)
     {
         try {
+            // print_r($_POST);
             $this->validateUsername($username);
             $this->validatePassword($password);
-            
+
             $stmt = $this->conn->prepare("SELECT * FROM users WHERE username = :username");
             $stmt->execute([':username' => $username]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($user && password_verify($password, $user['password'])) {
-                $this->setUserSession($user);
-                return true;
+            if (!$user) {
+                return "Username not found.";
             }
-            return false;
+
+            if (!password_verify($password, $user['password'])) {
+                return "Incorrect password.";
+            }
+
+            $this->setUserSession($user);
+            return true;
         } catch (Exception $exception) {
-            $this->handleException($exception, "Error on Login");
-            return false;
+            return $exception->getMessage();
         }
     }
+
 
     public function uploadProfilePic($file)
     {

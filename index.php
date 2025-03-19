@@ -17,9 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_FILES['profilePic']) && $_FILES['profilePic']['error'] === UPLOAD_ERR_OK) {
             $profilepic = $auth->uploadProfilePic($_FILES['profilePic']);
         }
-        if ($auth->signup($username, $email, $password, $profilepic)) {
+        $signupResult = $auth->signup($username, $email, $password, $profilepic);
+        if ($signupResult === true) {
             header("Location: login.php");
-            exit; // Always add exit() after header redirect
+            exit;
+        } else {
+            $error = $signupResult; // Show actual error message
         }
     } catch (Exception $e) {
         $error = $e->getMessage();
@@ -73,6 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p>Already have an account? <a href="login.php">Login</a></p>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/validator.js"></script>
+    <script src="js/validation.js"></script>
 </body>
 </html>

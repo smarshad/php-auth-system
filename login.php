@@ -8,14 +8,13 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
-
-
     try {
-        if ($auth->login($username, $password)) {
+        $loginResult = $auth->login($username, $password);
+        if ($loginResult === true) {
             header("Location: profile.php");
-            exit();
+            exit;
         } else {
-            $error = "Invalid username or password";
+            $error = $loginResult; // Show actual error message
         }
     } catch (Exception $e) {
         $error = $e->getMessage();
@@ -62,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <p>Dont'nt have an account? <a href="index.php">Signup</a></p>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/validator.js"></script>
+    <script src="js/validation.js"></script>
 </body>
-<script src="js/validator.js"></script>
 </html>
