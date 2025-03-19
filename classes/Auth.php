@@ -110,8 +110,12 @@ class Auth
 
     private function validatePassword($password)
     {
-        if (empty($password) || strlen($password) < 6) {
-            throw new Exception("Password must be at least 6 characters long.");
+        if (empty($password)) {
+            throw new Exception("Password cannot be empty.");
+        }
+        
+        if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/', $password)) {
+            throw new Exception("Password must be at least 6 characters long and contain at least one letter and one number.");
         }
     }
 
