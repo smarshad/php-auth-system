@@ -49,6 +49,7 @@ $email = !empty($_SESSION['email']) ?  $_SESSION['email'] : "";
             <h3 class="mt-3"><?php echo htmlspecialchars($username); ?></h3>
             <h3 class="mt-3"><?php echo htmlspecialchars($email); ?></h3>
             <a href="logout.php" class="btn btn-danger mt-3">Logout</a>
+            <a href="edit.php" class="btn btn-danger mt-3">Edit</a>
         </div>
     </div>
 
